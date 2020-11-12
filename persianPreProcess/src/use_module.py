@@ -4,6 +4,7 @@ from invertedIndex.documentStore import DocumentStore
 import xml.etree.ElementTree as ET
 import preprocess
 import stopword
+import time
 
 doc_store = DocumentStore() 
 index = InvertedIndex()
@@ -23,9 +24,14 @@ def normalize(text):
     preprocessed.remove_punctuation()
     return preprocessed
 
+def not_null(obj):
+    return obj != None
+
 def tokenize(normalized):
-    tokens = normalized.split()
-    return remove_stopwords(tokens)
+    if not_null(normalized):
+        tokens = normalized.split()
+        return remove_stopwords(tokens)
+    else: return normalized
 
 def remove_stopwords(tokens):
     sword = stopword.StopWord()
@@ -38,40 +44,45 @@ def add_to_doc_store(document):
     global doc_store
     doc_store.add(document)
 
-def get_normalized_title(doc):
-    title = doc.find('title').text
-    return normalize(title)
-
-def get_normalized_abstract(doc):
-    abstract = doc.find('abstract').text
-    return normalize(abstract)
+def get_normalized_text_of(doc, element_text):
+    element = doc.find(element_text)
+    if not_null(element):
+        normalized_element = normalize(element.text)
+        return normalized_element.get_text()
+    else: return element
 
 def create_doc(doc):
-    normalized_title = get_normalized_title(doc)
-    normalized_abstract = get_normalized_abstract(doc)
-    document = Document(normalized_title.text, normalized_abstract.text)
+    normalized_title_text = get_normalized_text_of(doc, 'title')
+    normalized_abstract_text = get_normalized_text_of(doc, 'abstract')
+    document = Document(normalized_title_text, normalized_abstract_text)
     add_to_doc_store(document)
     return document
 
 def add_to_inverted_index(document, tokens):
     global index
-    index.add(document, tokens)
+    if not_null(tokens):
+        index.add(document, tokens)
 
 def write_index_to_file(index):
     f = open("persianPreProcess/data/index.txt", "w")
     f.write(str(index))
     f.close()
 
+def get_time():
+    return time.time()
+
+def print_status(document, start_time):
+    if document.getDocId() % 1500 == 0:
+        print(document.getDocId(), time.time() - start_time)
+
 def parse_xml(file_content):
-    import time
-    start_time = time.time()
+    start_time = get_time()
     root = ET.fromstring(file_content)
     for doc in root:
         document = create_doc(doc)
         tokens = tokenize(document.getBody())
         add_to_inverted_index(document, tokens)
-        if document.getDocId() % 1500 == 0:
-            print(document.getDocId(), time.time() - start_time)
+        print_status(document, start_time)
     write_index_to_file(index)
         
 if __name__ == '__main__':

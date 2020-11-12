@@ -7,6 +7,9 @@ class PreProcess():
     def __init__(self,text):
         self.text = text
 
+    def get_text(self):
+        return self.text
+
     def normalize_letter(self):
         normal = normalize.Normal()
         for key, value in normal.normal_dict.items():
