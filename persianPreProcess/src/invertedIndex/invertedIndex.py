@@ -1,12 +1,11 @@
-from document import Document
-from postingList import PostingList
+from .document import Document
+from .postingList import PostingList
 
 
 class InvertedIndex():
     table = dict() # String, PostingList
 
-    def add(self, document):
-        tokens = document.getBody().split()
+    def add(self, document, tokens):
         distinctTokens = set(tokens)
 
         for token in distinctTokens:

@@ -32,8 +32,3 @@ class PreProcess():
         self.text = re.sub(r'[^\w\s]', '', self.text)
 
 
-    def tokenize(self):
-        tokens = self.text.split()
-        return tokens
-
-
