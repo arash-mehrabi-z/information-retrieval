@@ -20,6 +20,12 @@ class InvertedIndex():
         else:
             return None
 
+    def get(self, key):
+        return self.table[key]
+
+    def getTable(self):
+        return self.table
+
     def __repr__(self) -> str:
         return self.table.__str__()
 

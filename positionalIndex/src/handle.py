@@ -82,6 +82,12 @@ def parse_xml(file_content):
         tokens = tokenize(document.getBody())
         add_to_inverted_index(document, tokens)
     # write_index_to_file(index)
+
+def parse_text(content):
+    if not_null(content):
+        normalized = normalize(content).text
+        tokens = tokenize(normalized)
+        return tokens
         
 def create_index(file_address):
     file_content = read_file(file_address)
