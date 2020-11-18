@@ -1,6 +1,6 @@
 import re
-import normalize
-import stopword
+import normalize.normalize as normalize
+import normalize.stopword as stopword
 import string
 
 class PreProcess():
