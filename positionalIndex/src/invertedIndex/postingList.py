@@ -3,22 +3,36 @@ class PostingList():
         self.data = {
             "word" : token,
             "frequency" : 0,
-            "info" : {},
+            "info" : [],
         }
+
+    def get(self):
+        return self.data
 
     def add(self, doc_id, position):
         self.data["frequency"] += 1
         info = self.data["info"]
 
-        if not doc_id in info:
-            info[doc_id] = {
+        for doc_info in info:
+            if doc_id == doc_info["document_id"]:
+                doc_info["occurence_count"] += 1
+                doc_info["positions"].append(position)
+                break
+        else:
+            info.append({
                 "document_id" : doc_id,
                 "occurence_count" : 1,
                 "positions" : [position],
-            }
-        else:
-            info[doc_id]["occurence_count"] += 1
-            info[doc_id]["positions"].append(position)
+            })
+        # if not doc_id in info:
+        #     info[doc_id] = {
+        #         "document_id" : doc_id,
+        #         "occurence_count" : 1,
+        #         "positions" : [position],
+        #     }
+        # else:
+        #     info[doc_id]["occurence_count"] += 1
+        #     info[doc_id]["positions"].append(position)
 
     # def sort(self):
     #     self.docIds.sort()
@@ -30,11 +44,11 @@ class PostingList():
     #     return self.docIds
     
     def __repr__(self) -> str:
-        s = "{word: " + self.data["word"] + ", frequency: " + self.data["frequency"].__str__() + ", info: {"
-        for key, value in self.data["info"].items():
-            s = s + " {" + "document_id: " + value["document_id"].__str__() + ", count: " + value["occurence_count"].__str__()
-            s = s + ", positions: " + value["positions"].__str__() + "},"
-        s += "}} }\n"
+        s = "{word: " + self.data["word"] + ", frequency: " + self.data["frequency"].__str__() + ", info: ["
+        for info in self.data["info"]:
+            s = s + " {" + "document_id: " + info["document_id"].__str__() + ", count: " + info["occurence_count"].__str__()
+            s = s + ", positions: " + info["positions"].__str__() + "}, "
+        s += "] } }\n"
         return s
 
     # def AND(self, other):

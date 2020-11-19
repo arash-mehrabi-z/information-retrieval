@@ -70,17 +70,17 @@ class PostingList():
                     result.add(b)
                 j += 1
             
-            while(i < self.size()):
-                a = self.docIds[i]
-                if a not in result.getDocIds():
-                    result.add(a)
-                i += 1
-        
-            while(j < other.size()):
-                b = other.docIds[j]
-                if b not in result.getDocIds():
-                    result.add(b)
-                j += 1
+        while(i < self.size()):
+            a = self.docIds[i]
+            if a not in result.getDocIds():
+                result.add(a)
+            i += 1
+    
+        while(j < other.size()):
+            b = other.docIds[j]
+            if b not in result.getDocIds():
+                result.add(b)
+            j += 1
 
         return result
 

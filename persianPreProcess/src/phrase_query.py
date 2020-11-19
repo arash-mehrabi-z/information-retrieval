@@ -1,4 +1,4 @@
-from handle import parse_text
+from use_module import parse_text
 
 def get_index_values_of(index, tokens):
     result = []
@@ -9,8 +9,9 @@ def get_index_values_of(index, tokens):
 
 
 def get_query(index):
-    content = input("Please enter your phrase query:\n")
+    content = input("Please enter your query:\n")
     tokens = parse_text(content)
-    indices = get_index_values_of(index, tokens)
-    return indices
+    print(tokens)
+    # indices = get_index_values_of(index, tokens)
+    # return indices
     

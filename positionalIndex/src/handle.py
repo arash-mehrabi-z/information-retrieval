@@ -45,9 +45,9 @@ def add_to_doc_store(document):
     doc_store.add(document)
 
 def get_normalized_text_of(doc, element_text):
-    element = doc.find(element_text).text
+    element = doc.find(element_text)
     if not_null(element):
-        normalized_element = normalize(element)
+        normalized_element = normalize(element.text)
         return normalized_element.get_text()
     else: return element
 
@@ -76,12 +76,14 @@ def print_status(document, start_time):
         print(document.getDocId(), time.time() - start_time)
 
 def parse_xml(file_content):
+    start_time = get_time()
     root = ET.fromstring(file_content)
     for doc in root:
         document = create_doc(doc)
         tokens = tokenize(document.getBody())
         add_to_inverted_index(document, tokens)
-    # write_index_to_file(index)
+        print_status(document, start_time)
+    write_index_to_file(index)
 
 def parse_text(content):
     if not_null(content):

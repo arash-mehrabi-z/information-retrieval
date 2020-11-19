@@ -1,6 +1,7 @@
 from invertedIndex.invertedIndex import InvertedIndex
 from invertedIndex.document import Document
 from invertedIndex.documentStore import DocumentStore
+import query
 import xml.etree.ElementTree as ET
 import preprocess
 import stopword
@@ -64,7 +65,7 @@ def add_to_inverted_index(document, tokens):
         index.add(document, tokens)
 
 def write_index_to_file(index):
-    f = open("persianPreProcess/data/index.txt", "w")
+    f = open("data/index.txt", "w")
     f.write(str(index))
     f.close()
 
@@ -84,13 +85,21 @@ def parse_xml(file_content):
         add_to_inverted_index(document, tokens)
         print_status(document, start_time)
     write_index_to_file(index)
+
+def parse_text(content):
+    if not_null(content):
+        normalized = normalize(content).text
+        tokens = tokenize(normalized)
+        return tokens
         
 if __name__ == '__main__':
-    file_address = "/home/arash/learning/information_retrieval/assignment/ir/persianPreProcess/data/simple.xml"
-
+    file_address = "/home/arash/learning/information_retrieval/assignment/ir/persianPreProcess/data/simple_small.xml"
     file_content = read_file(file_address)
     if(is_xml()):
         parse_xml(file_content)
+
+    q = query.Query(doc_store, index)
+    q.get_query()
 
 
 

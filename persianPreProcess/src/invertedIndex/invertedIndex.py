@@ -5,6 +5,15 @@ from .postingList import PostingList
 class InvertedIndex():
     table = dict() # String, PostingList
 
+    def get_table(self):
+        return self.table
+
+    def get_posting_list(self, key):
+        if key in self.table:
+            return self.table[key]
+        else:
+            return None
+
     def add(self, document, tokens):
         distinctTokens = set(tokens)
 
