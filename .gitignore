@@ -4,3 +4,6 @@ persianPreProcess/other/
 persianPreProcess/data/simple.xml
 persianPreProcess/data/index.txt
 persianPreProcess/index.txt
+positionalIndex/index.pkl
+positionalIndex/data/index.pkl
+

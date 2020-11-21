@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 import normalize.preprocess as preprocess
 import normalize.stopword as stopword
 import time
+import pickle
 
 doc_store = DocumentStore() 
 index = InvertedIndex()
@@ -64,8 +65,8 @@ def add_to_inverted_index(document, tokens):
         index.add(document, tokens)
 
 def write_index_to_file(index):
-    f = open("data/index.txt", "w")
-    f.write(str(index))
+    f = open("data/index.pkl", "wb")
+    pickle.dump(index.getTable(), f, pickle.HIGHEST_PROTOCOL)
     f.close()
 
 def get_time():
@@ -83,6 +84,8 @@ def parse_xml(file_content):
         tokens = tokenize(document.getBody())
         add_to_inverted_index(document, tokens)
         print_status(document, start_time)
+        if document.getDocId() > 70500:
+            break
     write_index_to_file(index)
 
 def parse_text(content):
@@ -96,6 +99,10 @@ def create_index(file_address):
     if(is_xml()):
         parse_xml(file_content)
     return index
+
+def load_index(name):
+    with open(name, 'rb') as f:
+        return pickle.load(f)
 
 
 

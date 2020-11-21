@@ -28,12 +28,3 @@ class InvertedIndex():
 
     def __repr__(self) -> str:
         return self.table.__str__()
-
-# doc1_body = "salam I am very good man am nice man"
-# doc2_body = "hello you are a very good girl not a man man"
-# doc1 = Document("first", doc1_body)
-# doc2 = Document("second", doc2_body)
-# index = InvertedIndex()
-# index.add(doc1, doc1.getBody().split())
-# index.add(doc2, doc2.getBody().split())
-# print(index)
