@@ -50,9 +50,10 @@ def pos_intersect(data_1, data_2, d = 1):
     return answer
 
 if __name__ == '__main__':
-    # file_address = "/home/arash/learning/information_retrieval/assignment/ir/positionalIndex/data/simple.xml"
-    # index = create_index(file_address)
-    # index_address = "/home/arash/learning/information_retrieval/assignment/ir/positionalIndex/data/index.pkl"
-    # indices = get_query(index)
-    # answer = pos_intersect(indices[0], indices[1])
-    # print(answer)
+    file_address = "/home/arash/learning/information_retrieval/assignment/ir/positionalIndex/data/simple.xml"
+    index = create_index(file_address)
+    index_address = "/home/arash/learning/information_retrieval/assignment/ir/positionalIndex/data/index.pkl"
+    index = load_index(index_address)
+    indices, k = get_query(index)
+    answer = pos_intersect(indices[0], indices[1], int(k))
+    print(answer)
